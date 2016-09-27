@@ -1,0 +1,14 @@
+{% extends "core/base.html" %}
+
+
+{% block content_classes %}
+    {{block.super}} index-content
+{% endblock content_classes %}
+
+{% block content %}
+Name: {{request.user.username}}
+Bio : {{profile.bio}}
+{% for tweet in tweets %}
+Tweet:{{tweet.heading}} 
+{% endfor %}
+{% endblock content %}

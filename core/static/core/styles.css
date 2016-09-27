@@ -1,0 +1,24 @@
+body {
+
+    padding-top: 70px;
+    padding-bottom: 70px;
+    background-color: white;
+}
+
+.page-footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color:#eee;
+}
+.page-footer hr {
+    margin-top: 0;
+    border-color: #aaa;
+}
+.main-content {
+    background: rgba(0, 0 ,0 ,0.5);
+    padding:20px;
+    border: 1px solid #ddd;
+    min-height:80vh;
+    border-radius:2px;
+}

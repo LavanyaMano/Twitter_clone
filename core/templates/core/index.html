@@ -1,7 +1,21 @@
 {% extends "core/base.html" %}
 
 {% block content %}
-
-    {% include "registration/login.html"%}
+    <h2>
+        Login to enter
+    </h2>
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        Incorrect username or password
+    </div>
+    {% endif %}
+    <form action="{% url 'accounts:login' %}" method="POST">
+        {% csrf_token %}
+        {% for field in form %}
+            {% include "core/_form_input.html" %}
+        {% endfor %}
+        <input type="hidden" name="next" value="{{next}}">
+        <button type="submit" class="btn btn-primary">Login</button>
+    </form>
 
 {% endblock content %}

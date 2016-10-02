@@ -89,6 +89,20 @@
 
 {% endif %}
 {% endblock user-content%}
+<div class="row">
+    <div class="col-md-12">
+        <div class="nav color">
+            <h2>
+            Tweet column
+                <div class="pull-right">
+                    <a href="{% url 'tweets:tweet_new' %}">
+                        <i class="fa fa-plus-square" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </h2>
+        </div>
+    </div>
+</div>
 
 
 {% block tweet-content %}

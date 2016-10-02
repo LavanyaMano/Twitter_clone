@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.contrib import messages
 from .forms import UserRegistrationForm
-
+from django.contrib.auth import login
 
 def register(request):
     if request.method == "POST":
@@ -13,8 +13,9 @@ def register(request):
             new_user.set_password(form.cleaned_data['password'])
             new_user.save()
             messages.success(request,"User Created!")
-
-            return redirect('tweets:tweet_list')
+            new_user.backend = "django.contrib.auth.backends.ModelBackend"
+            login(request,new_user)
+            return redirect('users:user_new')
     else:
         form = UserRegistrationForm()
 

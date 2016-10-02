@@ -2,10 +2,11 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django import forms
 from core.forms import BootstrapFormMixin
-
+from users.models import Profile
+ 
 class LoginForm(BootstrapFormMixin,AuthenticationForm):
     pass
-
+        
 
 class UserRegistrationForm(BootstrapFormMixin,forms.ModelForm):
     password = forms.CharField(label="Password", widget = forms.PasswordInput)
@@ -15,9 +16,13 @@ class UserRegistrationForm(BootstrapFormMixin,forms.ModelForm):
         model = User
         fields = ('username','email','password','password2',)
 
+    
+
     def clean_password2(self):
         cd = self.cleaned_data
         if cd['password'] != cd ['password2']:
             raise forms.ValidationError('Passwords do not match')
 
         return cd['password2']
+
+

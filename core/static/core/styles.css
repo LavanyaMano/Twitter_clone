@@ -4,21 +4,50 @@ body {
     padding-bottom: 70px;
     background-color: white;
 }
-
+.color{
+    background-color:rgba(94, 170, 247, 1);
+    border-radius: 6px;
+    color: black;
+    margin-bottom: 5px;
+}
 .page-footer {
     position: fixed;
     bottom: 0;
     width: 100%;
-    background-color:#eee;
+    background-color:rgba(94, 170, 247, 1);
+    border-radius: 6px;
+    color: black;
 }
-.page-footer hr {
-    margin-top: 0;
-    border-color: #aaa;
+.fa-pencil-square{
+    font-size: 40px;
 }
-.main-content {
-    background: rgba(0, 0 ,0 ,0.5);
-    padding:20px;
-    border: 1px solid #ddd;
-    min-height:80vh;
-    border-radius:2px;
+.fa-plus-square{
+    font-size: 40px;
+}
+.panel{
+    background-color:rgba(94, 170, 247, 0.3);
+}
+.profile_pic{
+    height: 70px;
+    width: 70px;
+}
+
+.profile_block{
+    height: 150px;
+}
+.profile{
+    text-align: center;
+}
+
+.user_list{
+    height: 100px;
+}
+
+.tweet_image{
+    width: 100%;
+    height: 90px;
+}
+.user_pic{
+    width: 100%;
+    height:100px;
 }

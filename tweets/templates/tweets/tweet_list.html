@@ -1,19 +1,81 @@
 {% extends "core/base.html" %}
 
+{% block user-content %}
+    <div class="top">
+    <h2>
+        Users column
+    </h2>
 
-{% block content %}
-<h2>
-    Tweets
-</h2>
-<hr>
+    </div>
+    <div class="bottom">
+        <img src="https://app.nimia.com/static/img/default_profile.png">
+        username: {{user.username}}
+    </div>
+
+{% endblock user-content%}
+
+
+{% block tweet-content %}
+
+
 {% if tweets %}
-<div class="row">
-    {% for tweet in tweets %}
-    {{tweet.heading}}
-    {{tweet.hashtag| urlize }}
-    {% endfor %}
+<div class="nav navbar-default">
+    <h2>
+        Tweet column
+        <div class="pull-right">
+    <a href="{% url 'tweets:tweet_new' %}">
+    <i class="fa fa-plus-square" aria-hidden="true"></i>
+    </a>
+    </div>
+    </h2>
 </div>
-{% else %}
-<h4> No tweets found.</h4>
-{% endif %}
-{% endblock content%}
+<div>
+    <ul>
+        {% for tweet in tweets %}
+        <div class="row">
+            <div class="col-md-2 thumbnail">
+                <img src="{{tweet.profile.profile_pic}}">
+            </div>
+            <div class="col-md-10">
+                <div class="row">
+                    <div class="col-md-12">
+                        Posted by:{{tweet.profile.user.username}}
+                        Posted on: {{tweet.posted_on}}
+                        <div class="pull-right">
+                            <a href="{% url 'tweets:tweet_edit' tweet.pk %}">
+                            <i class="fa fa-pencil-square fa-tweet"></i>
+                            </a>
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>Tweet:</h4>{{tweet.heading}}
+                        <hr>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+
+
+        <h4>Content:</h4>
+        {{tweet.content}}
+
+        <li>
+        <a href="#"><h4>
+        #{{tweet.hashtag}}</h4>
+        </a>
+        </li>
+        <hr>
+        {% endfor %}
+    </ul>
+
+    {% else %}
+    <h4> No tweets found.</h4>
+    </div>
+    {% endif %}
+
+{% endblock tweet-content%}

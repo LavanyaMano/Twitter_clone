@@ -1,0 +1,108 @@
+{% extends "core/base.html" %}
+{% block user-content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default profile_block">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img class="img-thumbnail profile_pic" src="{{current_profile.profile_pic}}" alt="Profile Pic">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="row">
+                                {{current_profile.user.username}}
+                                {{current_profile.bio}}
+                            </div>
+                            <div class="row">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row profile">
+                <div class="col-md-12">
+                    <div class="col-md-4 ">
+                    Tweets
+                    </div>
+                    <div class="col-md-4">
+                        Following
+                    </div>
+                    <div class="col-md-4">
+                        Followers
+                    </div>
+                    <hr>
+                </div>
+            </div>
+            <div class="row profile">
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                    {{current_profile.tweet_set.count}}
+                    </div>
+                    <div class="col-md-4">
+                        {{current_profile.following.count}}
+                    </div>
+                    <div class="col-md-4">
+                        {{current_profile.followed_by.count}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <h5>Following</h5>
+                {% for a in follows %}
+                {% if a %}
+                        <a href="{% url 'users:user_detail' a.pk%}" >
+                            <img class="img-thumbnail profile_pic" src="{{a.profile_pic}}">
+                        </a>
+                {% endif %}
+                {% endfor %}
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <h5>Followers</h5>
+                {% for a in follower %}
+                {% if a %}
+                        <a href="{% url 'users:user_detail' a.pk%}" >
+                            <img class="img-thumbnail profile_pic" src="{{a.profile_pic}}">
+                        </a>
+                {% endif %}
+                {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock user-content%}
+
+{% block tweet-content %}
+{% if tweet %}
+<h2>
+    Edit:{{tweet.name}}
+</h2>
+{% else %}
+<h2>
+    New Tweet
+</h2>
+{% endif %}
+
+
+<form action="" method="POST">
+    {% csrf_token %}
+    
+    {% for field in form %}
+    {% include "core/_form_input.html" %}
+    {% endfor %}
+
+    <button type="submit" class="btn btn-primary btn-block btn-lg">
+        Save
+    </button>
+</form>
+
+{% endblock tweet-content %}

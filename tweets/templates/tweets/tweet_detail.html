@@ -1,5 +1,4 @@
 {% extends "core/base.html" %}
-
 {% block user-content %}
 <div class="row">
     <div class="col-md-12">
@@ -15,7 +14,7 @@
                                 {{profile.user.username}}
                             </div>
                             <div class="row">
-                                {% if request.user not in profile %}
+                                {% if profile.user != request.user %}
                                 {% if request.user.profile in follower %}
                                     <form action="{%url 'users:unfollow' profile.pk%}" method="POST">
                                     {% csrf_token %}
@@ -98,10 +97,9 @@
 {% endblock user-content%}
 
 {% block tweet-content %}
-{% if tweets %}
+{% if tweet %}
 <div class="row">
     <div class="col-md-12">
-        {% for tweet in tweets %}
         <div class="panel panel-default">
             <div class="row">
                 <div class="col-md-2">
@@ -112,7 +110,7 @@
                         <div class="col-md-12">
                             Posted by:{{tweet.profile.user.username}}
                             Posted on: {{tweet.posted_on}}
-                            {% if tweets in current_profile.tweet_set%}
+                            {% if tweet in current_profile.tweet_set.all%}
                             <div class="pull-right">
                                 <a href="{% url 'tweets:tweet_edit' tweet.pk%}">
                                     <i class="fa fa-pencil-square" aria-hidden="true"></i>
@@ -125,12 +123,11 @@
                     <div class="row">
                         <h4>{{tweet.heading}}</h4>
                         {{tweet.content}}
-                        <a href="{%url 'tweets:tweet_detail' tweet.pk%}"><h4>{{tweet.hashtag}}</h4></a>
+                        <a href="#"><h4>{{tweet.hashtag}}</h4></a>
                     </div>
                 </div>
             </div>
         </div>
-        {% endfor %}
     </div>
 </div>
 {% else %}

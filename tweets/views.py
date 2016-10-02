@@ -1,11 +1,13 @@
 from django.shortcuts import render,get_object_or_404,redirect
+from django.contrib.auth.decorators import login_required
+
 from django.http import HttpResponse
 from .models import Tweet
 from .forms import TweetForm
 from django.contrib import messages
 from users.models import Profile
 
-
+@login_required
 def tweet_list(request):
     tweets = Tweet.objects.all()
     context = {

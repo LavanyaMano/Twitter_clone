@@ -53,7 +53,7 @@
                         </form>
                     </li>
                     {% if request.user.is_authenticated %}
-                    <li><a href="{% url 'users:user_edit' request.user.profile.pk %}">Hello, {{request.user.username}}</a></li>
+                    <li><a href="{% url 'users:user_edit' request.user.pk %}">Hello, {{request.user.username}}</a></li>
                     <li><a href="{% url 'accounts:logout' %}">Logout</a> </li>
                     {% else %} 
                     <li><a href="{% url 'accounts:login' %}">Login</a> </li> 

@@ -10,6 +10,7 @@ from .models import Profile,RELATIONSHIP_STATUSES,Relationship
 from .forms import UserForm
 from tweets.models import Tweet
 
+@login_required
 def user_list(request):
     profiles = Profile.objects.exclude(user = request.user)
     current_profile = request.user.profile

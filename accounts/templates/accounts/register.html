@@ -1,5 +1,7 @@
 {% extends "core/base.html" %}
 {% block content %}
+
+<div class="panel center">
     <h2>Register</h2>
     
         <form action="" method="POST">
@@ -7,7 +9,8 @@
             {% for field in form %}
                 {% include "core/_form_input.html" %}
             {% endfor %} 
-            <button class="btn btn-primary" type="submit">Sign Up</button>   
+            <button class="btn btn-primary" type="submit">Sign Up</button>
         </form>
-    
+</div>
+
 {% endblock content %}

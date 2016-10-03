@@ -35,6 +35,14 @@ def tweet_detail(request, id):
 
 
 def tweet_new(request):
+
+    current_profile = request.user.profile
+    follows = current_profile.get_following()
+    follows = follows.exclude(user = current_profile.user)
+    follower = current_profile.get_followers()
+    follower = follower.exclude(user= current_profile.user)
+    followed_profiles = [ following.followed_by for following in current_profile.following.all()]
+
     if request.method == "POST":
         form = TweetForm(request.POST)
         if form.is_valid():
@@ -42,13 +50,17 @@ def tweet_new(request):
             tweet.profile = request.user.profile
             tweet.save()
             messages.success(request,"tweet created!")
-            return redirect("users:user_detail", id = request.user.pk)
+            return redirect("users:user_detail", id=current_profile.pk)
     else:
         form =TweetForm()
 
     context = {
         "form": form,
-        }
+        "current_profile":current_profile,
+        "follower":follower,
+        "follows":follows,
+        "followed_profiles":followed_profiles,
+    }
     return render(request,"tweets/tweet_edit.html", context)
 
 

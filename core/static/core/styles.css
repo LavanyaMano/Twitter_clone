@@ -4,11 +4,16 @@ body {
     padding-bottom: 70px;
     background-color: white;
 }
+.center {
+    margin-left: 300px;
+    margin-right: 300px;
+}
 .color{
     background-color:rgba(94, 170, 247, 1);
     border-radius: 6px;
     color: black;
     margin-bottom: 5px;
+    content: center;
 }
 .page-footer {
     position: fixed;
@@ -20,9 +25,13 @@ body {
 }
 .fa-pencil-square{
     font-size: 40px;
+    padding-bottom: 2px;
+    padding-left: 3px;
 }
 .fa-plus-square{
     font-size: 40px;
+    padding-bottom: 2px;
+    padding-left: 3px;
 }
 .panel{
     background-color:rgba(94, 170, 247, 0.3);

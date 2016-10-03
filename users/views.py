@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.db.models import Count
 from django.contrib  import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 
 from .models import Profile,RELATIONSHIP_STATUSES,Relationship
@@ -67,7 +68,9 @@ def user_new(request):
 def user_edit(request,id):
     # user = get_object_or_404(Profile, pk=id)
     try:
-        user= Profile.objects.get(pk=id)
+        # import pdb; pdb.set_trace()
+        user= User.objects.get(pk=id).profile
+        
     except:
         return redirect("users:user_new")
 

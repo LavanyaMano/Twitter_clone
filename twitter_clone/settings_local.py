@@ -9,5 +9,4 @@ DATABASES = {
 
 DEBUG = True
 
-If DEBUG:
-INSTALLED_APPS += (‘debug_toolbar’,)
+

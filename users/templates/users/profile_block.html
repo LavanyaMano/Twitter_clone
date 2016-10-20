@@ -1,0 +1,65 @@
+<div class="card">
+    <div class="card-block">
+        <h4 class="card-title">
+            {{current_profile.user.username}}
+        </h4>
+        <h6 class="card-subtitle text-muted">
+            (My profile block)
+        </h6>
+    </div>
+        <img class="responsive" src="{{current_profile.profile_pic}}" alt="Card image">
+    <div class="card-block">
+        <p class="card-text">
+            {{current_profile.bio}}
+        </p>
+        <a href="{% url 'users:user_detail' current_profile.user.pk %}" class="card-link">
+            View Your Page
+        </a>
+        <div class="row">
+            <div class="col-xs-4">
+                Tweets
+            </div>
+            <div class="col-xs-4">
+                Followers
+            </div>
+            <div class="col-xs-4">
+                Following
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-xs-4">
+                {{current_profile.tweet_set.count}}
+            </div>
+            <div class="col-xs-4">
+                {{current_profile.following.count}}
+            </div>
+            <div class="col-xs-4">
+                {{current_profile.followed_by.count}}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-block">
+        <h4 class="card-title">
+            Card title
+        </h4>
+        <h6 class="card-subtitle text-muted">
+            Support card subtitle
+        </h6>
+    </div>
+        <img src="..." alt="Card image">
+    <div class="card-block">
+        <p class="card-text">
+            Some quick example text to build on the card title and make up the bulk of the card's content.
+        </p>
+        <a href="#" class="card-link">
+            Card link
+        </a>
+        <a href="#" class="card-link">
+            Another link
+        </a>
+    </div>
+</div>
+

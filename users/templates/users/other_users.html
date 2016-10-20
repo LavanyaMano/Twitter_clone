@@ -1,0 +1,28 @@
+<h1>Other users</h1>
+{% for profile in profiles %}
+<div class="card">
+    <div class="card-block">
+        <h4 class="card-title">
+            Card title
+        </h4>
+        <h6 class="card-subtitle text-muted">
+            Support card subtitle
+        </h6>
+    </div>
+        <img class="responsive" src="{{profile.profile_pic}}" alt="Card image">
+    <div class="card-block">
+        <p class="card-text">
+            {{profile.bio}}
+        </p>
+        <a href="{% url 'users:user_detail' profile.user.pk%}" class="card-link">
+            View Profile
+        </a>
+        {% if profile in followed_profiles %}
+        <button class="btn btn-primary btn-xs">Unfollow</button>
+        {% else %}
+        <button class="btn btn-primary btn-xs">Follow</button>
+        {% endif %}
+    </div>
+</div>
+<hr>
+{% endfor %}

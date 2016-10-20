@@ -10,8 +10,7 @@ from .models import Profile,RELATIONSHIP_STATUSES,Relationship
 from .forms import UserForm
 from tweets.models import Tweet
 
-@login_required
-def user_list(request):
+def base_context(request):
     profiles = Profile.objects.exclude(user = request.user)
     current_profile = request.user.profile
     tweets= Tweet.objects.all()
@@ -29,24 +28,19 @@ def user_list(request):
     "follows":follows,
     "followed_profiles":followed_profiles,
     }
+    return context
+
+@login_required
+def user_list(request):
+    context = base_context(request)
     return render(request,"users/user_list.html",context)
 
 
 def user_detail(request,id):
-    profile = get_object_or_404(Profile,pk=id)
-    current_profile = request.user.profile
-    tweets = profile.tweet_set.all()
-    follows = profile.get_following()
-    follows = follows.exclude(user = profile.user)
-    follower = profile.get_followers()
-    follower = follower.exclude(user= profile.user)
-    context = {
-     "profile":profile,
-     "tweets":tweets,
-     "follower":follower,
-     "follows":follows,
-     "current_profile":current_profile,
-    }
+    context = base_context(request)
+    user_profile = get_object_or_404(Profile,pk=id)
+    context["user_profile"] = user_profile
+    context["user_tweets"] = user_profile.tweet_set.all()
     return render(request,"users/user_detail.html",context)
 
 def user_new(request):

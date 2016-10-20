@@ -1,18 +1,102 @@
 {% extends "core/base.html" %}
-
 {% block user-content %}
-    <div class="top">
-    <h2>
-        Users column
-    </h2>
-
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default profile_block">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img class="img-thumbnail profile_pic" src="{{profile.profile_pic}}" alt="Profile Pic">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="row">
+                                {{profile.user.username}}
+                            </div>
+                            <div class="row">
+                                {% if profile.user != request.user %}
+                                {% if request.user.profile in follower %}
+                                    <form action="{%url 'users:unfollow' profile.pk%}" method="POST">
+                                    {% csrf_token %}
+                                        <button type="submit" class="btn btn-primary">
+                                        Unfollow
+                                        </button>
+                                    </form>
+                                {%else%}
+                                    <form action="{%url 'users:follow' profile.pk%}" method="POST">
+                                    {% csrf_token %}
+                                        <button type="submit" class="btn btn-primary">
+                                        Follow
+                                        </button>
+                                    </form>
+                                {%endif%}
+                                {%endif%}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row profile">
+                <div class="col-md-12">
+                    <div class="col-md-4 ">
+                    Tweets
+                    </div>
+                    <div class="col-md-4">
+                        Following
+                    </div>
+                    <div class="col-md-4">
+                        Followers
+                    </div>
+                    <hr>
+                </div>
+            </div>
+            <div class="row profile">
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                    {{profile.tweet_set.count}}
+                    </div>
+                    <div class="col-md-4">
+                        {{profile.following.count}}
+                    </div>
+                    <div class="col-md-4">
+                        {{profile.followed_by.count}}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="bottom">
-        <img src="https://app.nimia.com/static/img/default_profile.png">
-        username: {{user.username}}
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <h5>Following</h5>
+                {% for a in follows %}
+                {% if a %}
+                        <a href="{% url 'users:user_detail' a.pk%}" >
+                            <img class="img-thumbnail profile_pic" src="{{a.profile_pic}}">
+                        </a>
+                {% endif %}
+                {% endfor %}
+        </div>
     </div>
-
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <h5>Followers</h5>
+                {% for a in follower %}
+                {% if a %}
+                        <a href="{% url 'users:user_detail' a.pk%}" >
+                            <img class="img-thumbnail profile_pic" src="{{a.profile_pic}}">
+                        </a>
+                {% endif %}
+                {% endfor %}
+        </div>
+    </div>
+</div>
 {% endblock user-content%}
+
+{% block tweet-content %}
 <div class="row">
     <div class="col-md-12">
         <div class="nav color">
@@ -27,19 +111,15 @@
         </div>
     </div>
 </div>
-
-{% block tweet-content %}
-
-
 {% if tweets %}
 <div class="nav navbar-default">
     <h2>
         Tweet column
         <div class="pull-right">
-    <a href="{% url 'tweets:tweet_new' %}">
-    <i class="fa fa-plus-square" aria-hidden="true"></i>
-    </a>
-    </div>
+            <a href="{% url 'tweets:tweet_new' %}">
+                <i class="fa fa-plus-square" aria-hidden="true"></i>
+            </a>
+        </div>
     </h2>
 </div>
 <div>
@@ -56,7 +136,7 @@
                         Posted on: {{tweet.posted_on}}
                         <div class="pull-right">
                             <a href="{% url 'tweets:tweet_edit' tweet.pk %}">
-                            <i class="fa fa-pencil-square fa-tweet"></i>
+                                <i class="fa fa-pencil-square fa-tweet"></i>
                             </a>
                             <hr>
                         </div>
@@ -90,5 +170,4 @@
     <h4> No tweets found.</h4>
     </div>
     {% endif %}
-
 {% endblock tweet-content%}

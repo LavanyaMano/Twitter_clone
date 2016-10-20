@@ -6,7 +6,6 @@ from django.contrib  import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
-
 from .models import Profile,RELATIONSHIP_STATUSES,Relationship
 from .forms import UserForm
 from tweets.models import Tweet
@@ -35,6 +34,7 @@ def user_list(request):
 
 def user_detail(request,id):
     profile = get_object_or_404(Profile,pk=id)
+    current_profile = request.user.profile
     tweets = profile.tweet_set.all()
     follows = profile.get_following()
     follows = follows.exclude(user = profile.user)
@@ -45,6 +45,7 @@ def user_detail(request,id):
      "tweets":tweets,
      "follower":follower,
      "follows":follows,
+     "current_profile":current_profile,
     }
     return render(request,"users/user_detail.html",context)
 
@@ -129,6 +130,5 @@ def unfollow(request,id):
 
         }
         return render(request,"users/user_list.html",context)
-
 
 

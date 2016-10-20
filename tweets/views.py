@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 
 from django.http import HttpResponse
 from .models import Tweet
-from .forms import TweetForm
+from .forms import TweetForm,RetweetForm
 from django.contrib import messages
 from users.models import Profile
 
@@ -93,5 +93,43 @@ def tweet_edit(request,id):
     }
     return render(request, "tweets/tweet_edit.html",context)
 
+def retweet(request,id):
+    tweet = get_object_or_404(Tweet, pk=id)
+    current_profile = request.user.profile
+    follows = current_profile.get_following()
+    follows = follows.exclude(user = current_profile.user)
+    follower = current_profile.get_followers()
+    follower = follower.exclude(user= current_profile.user)
+    followed_profiles = [ following.followed_by for following in current_profile.following.all()]
 
-           
+    if request.method == "POST":
+        form = RetweetForm(request.POST, instance=tweet)
+        if form.is_valid():
+            tweet = form.save()
+            messages.success(request,"Done!")
+            return redirect("users:user_detail", id=current_profile.pk)
+    else:
+        form = TweetForm(instance=tweet)
+
+    context = {
+        "form": form,
+        "tweet": tweet,
+        "current_profile":current_profile,
+        "follower":follower,
+        "follows":follows,
+        "followed_profiles":followed_profiles,
+    }
+    return render(request, "tweets/tweet_edit.html",context)
+
+def tweet_delete(request,id):
+    current_profile = request.user.profile
+    if request.method == "POST":
+        tweet = get_object_or_404(Tweet, pk=id)
+        tweet.delete()
+        messages.success(request, "Tweet deleted!")
+        return redirect("users:user_detail", id=current_profile.pk)
+    else:
+        messages.success(request, "Tweet not found!")
+        return redirect("users:user_detail", id=current_profile.pk)
+
+

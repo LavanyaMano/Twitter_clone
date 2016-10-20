@@ -11,8 +11,8 @@ RELATIONSHIP_STATUSES = (
 
 class Profile(models.Model):
     user = models.OneToOneField(User)
-    bio = models.TextField(blank = True)
-    location = models. TextField(blank= True)
+    bio = models.CharField(max_length=200,blank = True)
+    location = models. CharField(max_length=100,blank= True)
     birthday = models.DateField(blank=True)
     profile_pic= models.CharField(max_length=200,blank=True,default = "http://i164.photobucket.com/albums/u8/hemi1hemi/COLOR/COL9-6.jpg")
     relationships = models.ManyToManyField('self',through ="Relationship",symmetrical=False,related_name='related_to',)
@@ -50,6 +50,7 @@ class Profile(models.Model):
 
     def get_followers(self):
         return self.get_related_to(RELATIONSHIP_FOLLOWING)
+
 
 
 

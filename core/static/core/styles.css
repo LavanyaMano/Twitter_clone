@@ -33,6 +33,16 @@ body {
     padding-bottom: 2px;
     padding-left: 3px;
 }
+.fa-trash{
+    font-size: 30px;
+    padding-bottom: 2px;
+    padding-left: 3px;
+}
+.fa-retweet{
+    font-size: 40px;
+    padding-bottom: 2px;
+    padding-left: 3px;
+}
 .panel{
     background-color:rgba(94, 170, 247, 0.3);
 }

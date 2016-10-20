@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from tweets.models import Tweet
+
 
 
 def index(request):

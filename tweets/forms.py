@@ -9,3 +9,9 @@ class  TweetForm(BootstrapFormMixin,forms.ModelForm):
         model = Tweet
         fields = ('heading','content','hashtag',)
 
+class  RetweetForm(BootstrapFormMixin,forms.ModelForm):
+
+    class Meta:
+        model = Tweet
+        fields = ('retweet',)
+

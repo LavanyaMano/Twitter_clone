@@ -2,7 +2,9 @@
 {% block profile-content %}
     {% include "users/profile_block.html" %}
 {% endblock profile-content%}
-
+{% block tweet-content %}
+        {% include "tweets/tweet_list.html" %}
+{% endblock tweet-content%}
 {% block users-content %}
     {% include "users/other_users.html" %}
 {% endblock users-content%}

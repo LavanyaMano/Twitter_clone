@@ -13,9 +13,6 @@ Create New Tweet
         <div class="card-block" id="card-block">
             <h4 class="card-title">
                 {{tweet.heading}}
-                    <button class="btn btn-primary btn-xs">
-                        Retweet
-                    </button>
                     <a href="{% url 'users:tweet_edit' tweet.pk %}">
                         <i class="fa fa-pencil-square" aria-hidden="true"></i>
                     </a>

@@ -15,7 +15,8 @@
         <a href="{% url 'users:user_detail' current_profile.user.pk %}" class="card-link">
             View Your Page
         </a>
-        <div class="row">
+        <hr>
+        <div class="row count">
             <div class="col-xs-4">
                 Tweets
             </div>
@@ -27,7 +28,7 @@
             </div>
         </div>
         <hr>
-        <div class="row">
+        <div class="row count">
             <div class="col-xs-4">
                 {{current_profile.tweet_set.count}}
             </div>

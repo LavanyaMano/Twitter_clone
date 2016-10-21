@@ -27,28 +27,28 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="{% url 'core:index' %} " class="navbar-brand">
+                <a href="{% url 'users:user_list' %} " class="navbar-brand">
                     <i class="fa fa-home" aria-hidden="true">Home</i>
                 </a>
-                <a href="{% url 'core:index' %} " class="navbar-brand">
+                <a href="{% url 'users:user_list' %} " class="navbar-brand">
                     <i class="fa fa-bell" aria-hidden="true">Notifications</i>
                 </a>
-                <a href="{% url 'core:index' %} " class="navbar-brand">
+                <a href="{% url 'users:user_list' %} " class="navbar-brand">
                     <i class="fa fa-envelope" aria-hidden="true">Messages</i>
                 </a>
-                <a href="{% url 'core:index' %} " class="navbar-brand">
+                <a href="{% url 'users:user_list' %} " class="navbar-brand">
                     <i class="fa fa-twitter" aria-hidden="true"></i>
                 </a>
             </div>
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
-                    <form class="navbar-form navbar-left" role="search" action="{% url 'users:user_detail' user.pk %}" >
+                    <!-- <form class="navbar-form navbar-left" role="search" action="" >
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="Find user">
                         </div>
                         <button class="btn btn-default">Search</button>
-                    </form>
+                    </form> -->
                     {% if request.user.is_authenticated %}
                     <li><a href="{% url 'users:user_edit' request.user.pk %}">Hello, {{request.user.username}}</a></li>
                     <li><a href="{% url 'accounts:logout' %}">Logout</a> </li>

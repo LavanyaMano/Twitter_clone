@@ -89,44 +89,23 @@ def user_edit(request,id):
     return render(request, "users/user_edit.html", context)
 
 def follow(request,id):
+    context = base_context(request)
     if request.method == "POST":
         member= Profile.objects.get(pk=id)
         request.user.profile.add_relationship(member,1)
         request.user.save()
         member.save()
         messages.success(request,"Success")
-        profiles = Profile.objects.all()
-        current_profile = request.user.profile
-        tweets= Tweet.objects.all()
-        followed_profiles = [ following.followed_by for following in current_profile.following.all()]
-        context = {
-        "profiles": profiles,
-        "tweets":tweets,
-        "current_profile":current_profile,
-        "followed_profiles": followed_profiles,
-
-        }
         return render(request,"users/user_list.html",context)
 
 def unfollow(request,id):
+    context = base_context(request)
     if request.method == "POST":
         member= Profile.objects.get(pk=id)
         request.user.profile.remove_relationship(member,1)
         request.user.save()
         member.save()
         messages.success(request,"Successfully removed")
-        profiles = Profile.objects.all()
-        current_profile = request.user.profile
-        tweets= Tweet.objects.all()
-
-        followed_profiles = [ following.followed_by for following in current_profile.following.all()]
-        context = {
-        "profiles": profiles,
-        "tweets":tweets,
-        "current_profile":current_profile,
-        "followed_profiles": followed_profiles,
-
-        }
         return render(request,"users/user_list.html",context)
 
 def tweet_new(request):
@@ -135,10 +114,10 @@ def tweet_new(request):
         form = TweetForm(request.POST)
         if form.is_valid():
             tweet = form.save(commit=False)
-            current_profile = request.user.profile
+            tweet.profile = request.user.profile
             tweet.save()
             messages.success(request,"tweet created!")
-            return redirect("users:user_detail", id=current_profile.pk)
+            return redirect("users:user_detail", id=request.user.profile.pk)
     else:
         form =TweetForm()
 

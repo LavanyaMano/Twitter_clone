@@ -20,12 +20,13 @@
     margin-top: 7%;
     margin-right: 30%;
 }
-.content{
-    margin:5px;
-    padding: 5px;
+.count{
+    text-align: center;
 }
 .profile-content{
     width:20%;
+    margin-left: -2%;
+    padding-right: 20px;
     text-align: left;
     box-shadow: 40px 29px 42px -33px rgba(224,221,215,0.89);
 }
@@ -36,10 +37,11 @@
     float: left;
 }
 .users-content{
-    width: 20%;
-    height:550px;
-    margin:5px;
+    margin-right: -10%;
     padding: 5px;
+    padding-top: 0px;
+    width: 21%;
+    height:550px;
     float: left;
     overflow: scroll;
     text-align: right;

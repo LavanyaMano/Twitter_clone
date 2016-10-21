@@ -4,7 +4,9 @@ Create New Tweet
     <div class="pull-right">
         <form action ="{% url 'users:tweet_new' %}" method="POST">
         {% csrf_token %}
-            <i class="fa fa-plus-square"></i>
+            <button class="btn btn-primary btn-xs">
+                <i class="fa fa-plus-square"></i>
+            </button> 
         </form>
     </div>
 </div>
@@ -15,21 +17,12 @@ Create New Tweet
             <h4 class="card-title">
                 {{tweet.heading}}
                 {% if tweet.profile == current_profile %}
-                    <button class="btn btn-primary btn-xs">
-                        Retweet
-                    </button>
                     <a href="{% url 'users:tweet_edit' tweet.pk %}">
-                        <button class="fa fa-pencil-square" aria-hidden="true"></button>
+                        <i class="fa fa-pencil-square" aria-hidden="true"></i>
                     </a>
-                    <form action="{% url 'users:tweet_delete' tweet.pk %}" method="POST">
+                    <a href="{% url 'users:tweet_delete' tweet.pk %}">
                         <i class="fa fa-minus-square" aria-hidden="true"></i>
-                    </form>
-                {% endif %}
-                {% if tweet.profile in follows %}
-                {% csrf_token %}
-                    <button class="btn btn-primary btn-xs">
-                        Retweet
-                    </button>
+                    </a>
                 {% endif %}
             </h4>
             <blockquote class="card-blockquote">

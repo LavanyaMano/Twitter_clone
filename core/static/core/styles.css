@@ -1,19 +1,39 @@
 .container{
     display: flex;
 }
-.profile-content{
-    width:20%;
+.main{
+    margin:5%;
+    padding: 5%;
+    display: flex;
+}
+.left-main{
+    width:50%;
+    text-align: right;
+}
+.right-main{
+    border-left: 2px double lightgrey;
+    width: 50%;
+    padding-left: 5px;
+}
+.center{
+    margin-left: 30%;
+    margin-top: 7%;
+    margin-right: 30%;
+}
+.content{
     margin:5px;
     padding: 5px;
-    float: left;
-    overflow: scroll;
+}
+.profile-content{
+    width:20%;
+    text-align: left;
+    box-shadow: 40px 29px 42px -33px rgba(224,221,215,0.89);
 }
 .tweet-content{
     width: 60%;
     margin:5px;
     padding: 5px;
     float: left;
-    overflow: scroll;
 }
 .users-content{
     width: 20%;
@@ -22,9 +42,17 @@
     padding: 5px;
     float: left;
     overflow: scroll;
+    text-align: right;
+    box-shadow: -40px 29px 42px -33px rgba(224,221,215,0.89);
 }
-
 .responsive{
     width: 70px;
     height: 70px;
+}
+.responsive-list{
+    width: 50px;
+    height: 50px;
+}
+#card-block{
+    width: 50%;
 }

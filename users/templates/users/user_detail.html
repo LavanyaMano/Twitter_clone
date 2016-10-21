@@ -3,7 +3,49 @@
     {% include "users/profile_block.html" %}
 {% endblock profile-content%}
 {% block tweet-content %}
-        <h3>Personal tweets</h3>
+{% if user_profile != current_profile %}
+    <div class="card">
+    <div class="card-block">
+        <h4 class="card-title">
+            {{user_profile.user.username}}
+        </h4>
+        <h6 class="card-subtitle text-muted">
+            (profile block)
+        </h6>
+    </div>
+        <img class="responsive" src="{{user_profile.profile_pic}}" alt="Card image">
+    <div class="card-block">
+        <p class="card-text">
+            {{user_profile.bio |truncatechars:25}}
+        </p>
+        <div class="row">
+            <div class="col-xs-4">
+                Tweets
+            </div>
+            <div class="col-xs-4">
+                Followers
+            </div>
+            <div class="col-xs-4">
+                Following
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-xs-4">
+                {{user_profile.tweet_set.count}}
+            </div>
+            <div class="col-xs-4">
+                {{user_profile.following.count}}
+            </div>
+            <div class="col-xs-4">
+                {{user_profile.followed_by.count}}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+        {% include "tweets/tweet_detail.html" %}
 {% endblock tweet-content%}
 {% block users-content %}
     {% include "users/other_users.html" %}

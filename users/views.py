@@ -8,9 +8,11 @@ from django.contrib.auth.models import User
 
 from .models import Profile,RELATIONSHIP_STATUSES,Relationship
 from .forms import UserForm
+from tweets.forms import TweetForm
 from tweets.models import Tweet
 
 def base_context(request):
+    
     profiles = Profile.objects.exclude(user = request.user)
     current_profile = request.user.profile
     tweets= Tweet.objects.all()
@@ -38,7 +40,9 @@ def user_list(request):
 
 def user_detail(request,id):
     context = base_context(request)
-    user_profile = get_object_or_404(Profile,pk=id)
+    query_set = Profile.objects
+    query_set = query_set.select_related('user')
+    user_profile = get_object_or_404(query_set,pk=id)
     context["user_profile"] = user_profile
     context["user_tweets"] = user_profile.tweet_set.all()
     return render(request,"users/user_detail.html",context)
@@ -124,5 +128,57 @@ def unfollow(request,id):
 
         }
         return render(request,"users/user_list.html",context)
+
+def tweet_new(request):
+    context = base_context(request)
+    if request.method == "POST":
+        form = TweetForm(request.POST)
+        if form.is_valid():
+            tweet = form.save(commit=False)
+            current_profile = request.user.profile
+            tweet.save()
+            messages.success(request,"tweet created!")
+            return redirect("users:user_detail", id=current_profile.pk)
+    else:
+        form =TweetForm()
+
+    context["form"] =form 
+
+    return render(request,"tweets/tweet_edit.html", context)
+
+
+
+def tweet_edit(request,id):
+   
+    current_profile = request.user.profile
+    tweet = get_object_or_404(Tweet, pk=id)
+    if request.method == "POST":
+        form = TweetForm(request.POST, instance=tweet)
+        if form.is_valid():
+            tweet = form.save()
+            messages.success(request, "{} has been updated!".format(tweet.heading))
+            return redirect("users:user_detail", id=current_profile.pk)
+    else:
+        form = TweetForm(instance=tweet)
+
+    context = {
+        "form": form,
+        "tweet": tweet,
+        "current_profile":current_profile,
+        }
+    return render(request, "tweets/tweet_edit.html",context)
+
+def tweet_delete(request,id):
+    current_profile = request.user.profile
+    if request.method == "POST":
+        tweet = get_object_or_404(Tweet, pk=id)
+        tweet.delete()
+        messages.success(request, "Tweet deleted!")
+        return redirect("users:user_detail", id=current_profile.pk)
+    else:
+        tweet = get_object_or_404(Tweet, pk=id)
+        tweet.delete()
+        messages.success(request, "Tweet deleted!")
+        return redirect("users:user_detail", id=current_profile.pk)
 
 

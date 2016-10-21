@@ -7,16 +7,8 @@ from .forms import TweetForm,RetweetForm
 from django.contrib import messages
 from users.models import Profile
 
-@login_required
-def tweet_list(request):
+def base_context(request,id):
     tweets = Tweet.objects.all()
-    context = {
-    "tweets": tweets,
-    "user" : request.user
-    }
-    return render(request,"tweets/tweet_list.html",context)
-
-def tweet_detail(request, id):
     tweet = get_object_or_404(Tweet, pk=id)
     profile = tweet.profile
     current_profile = request.user.profile
@@ -25,24 +17,30 @@ def tweet_detail(request, id):
     follower = profile.get_followers()
     follower = follower.exclude(user= profile.user)
     context = {
-        "tweet": tweet,
+        "tweets": tweets,
+        "profile_tweet": tweet,
         "current_profile":current_profile,
         "profile":profile,
         "follower":follower,
         "follows":follows,
+        "user" : request.user
     }
+    return context
+
+
+def tweet_list(request,id):
+    context = base_context(request,id)
+    return render(request,"tweets/tweet_list.html",context)
+
+def tweet_detail(request, id):
+    
+    context = base_context(request,id)
     return render(request, "tweets/tweet_detail.html", context)
 
 
 def tweet_new(request):
 
-    current_profile = request.user.profile
-    follows = current_profile.get_following()
-    follows = follows.exclude(user = current_profile.user)
-    follower = current_profile.get_followers()
-    follower = follower.exclude(user= current_profile.user)
-    followed_profiles = [ following.followed_by for following in current_profile.following.all()]
-
+    context = base_context(request,id=1)
     if request.method == "POST":
         form = TweetForm(request.POST)
         if form.is_valid():
@@ -54,26 +52,15 @@ def tweet_new(request):
     else:
         form =TweetForm()
 
-    context = {
-        "form": form,
-        "current_profile":current_profile,
-        "follower":follower,
-        "follows":follows,
-        "followed_profiles":followed_profiles,
-    }
+    context["form"] =form 
+
     return render(request,"tweets/tweet_edit.html", context)
 
 
 
 def tweet_edit(request,id):
-    tweet = get_object_or_404(Tweet, pk=id)
     current_profile = request.user.profile
-    follows = current_profile.get_following()
-    follows = follows.exclude(user = current_profile.user)
-    follower = current_profile.get_followers()
-    follower = follower.exclude(user= current_profile.user)
-    followed_profiles = [ following.followed_by for following in current_profile.following.all()]
-
+    tweet = get_object_or_404(Tweet, pk=id)
     if request.method == "POST":
         form = TweetForm(request.POST, instance=tweet)
         if form.is_valid():
@@ -87,21 +74,11 @@ def tweet_edit(request,id):
         "form": form,
         "tweet": tweet,
         "current_profile":current_profile,
-        "follower":follower,
-        "follows":follows,
-        "followed_profiles":followed_profiles,
-    }
+        }
     return render(request, "tweets/tweet_edit.html",context)
 
 def retweet(request,id):
     tweet = get_object_or_404(Tweet, pk=id)
-    current_profile = request.user.profile
-    follows = current_profile.get_following()
-    follows = follows.exclude(user = current_profile.user)
-    follower = current_profile.get_followers()
-    follower = follower.exclude(user= current_profile.user)
-    followed_profiles = [ following.followed_by for following in current_profile.following.all()]
-
     if request.method == "POST":
         form = RetweetForm(request.POST, instance=tweet)
         if form.is_valid():
@@ -114,11 +91,7 @@ def retweet(request,id):
     context = {
         "form": form,
         "tweet": tweet,
-        "current_profile":current_profile,
-        "follower":follower,
-        "follows":follows,
-        "followed_profiles":followed_profiles,
-    }
+        }
     return render(request, "tweets/tweet_edit.html",context)
 
 def tweet_delete(request,id):

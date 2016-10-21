@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card ">
     <div class="card-block">
         <h4 class="card-title">
             {{current_profile.user.username}}
@@ -10,7 +10,7 @@
         <img class="responsive" src="{{current_profile.profile_pic}}" alt="Card image">
     <div class="card-block">
         <p class="card-text">
-            {{current_profile.bio}}
+            {{current_profile.bio |truncatechars:25}}
         </p>
         <a href="{% url 'users:user_detail' current_profile.user.pk %}" class="card-link">
             View Your Page
@@ -42,24 +42,34 @@
 </div>
 <div class="card">
     <div class="card-block">
-        <h4 class="card-title">
-            Card title
-        </h4>
-        <h6 class="card-subtitle text-muted">
-            Support card subtitle
-        </h6>
+    <div class="row">
+    <div class="col-md-12">
+        <div >
+            <h5>Following</h5>
+                {% for a in follows %}
+                {% if a %}
+                        <a href="{% url 'users:user_detail' a.pk%}" >
+                            <img class="responsive-list" src="{{a.profile_pic}}">
+                        </a>
+                {% endif %}
+                {% endfor %}
+        </div>
     </div>
-        <img src="..." alt="Card image">
-    <div class="card-block">
-        <p class="card-text">
-            Some quick example text to build on the card title and make up the bulk of the card's content.
-        </p>
-        <a href="#" class="card-link">
-            Card link
-        </a>
-        <a href="#" class="card-link">
-            Another link
-        </a>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div >
+            <h5>Followers</h5>
+                {% for a in follower %}
+                {% if a %}
+                        <a href="{% url 'users:user_detail' a.pk%}" >
+                            <img class="responsive-list" src="{{a.profile_pic}}">
+                        </a>
+                {% endif %}
+                {% endfor %}
+        </div>
+    </div>
+</div>
     </div>
 </div>
 

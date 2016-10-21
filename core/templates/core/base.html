@@ -10,11 +10,7 @@
     </title>
     <!-- bootswatch theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cerulean/bootstrap.min.css" >
-    <!-- Latest compiled and minified CSS -->
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
 
-    <!-- Optional theme -->
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"> -->
 
     <script src="https://use.fontawesome.com/a04d9e4c1c.js"></script>
 
@@ -47,13 +43,12 @@
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
-                    <form class="navbar-form navbar-left" role="search">
+                    <form class="navbar-form navbar-left" role="search" action="{% url 'users:user_detail' user.pk %}" >
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Search">
+                            <input type="text" class="form-control" placeholder="Find user">
                         </div>
-                        <button type="submit" class="btn btn-default">Submit</button>
+                        <button class="btn btn-default">Search</button>
                     </form>
-                    <li><a href="#">Link</a></li>
                     {% if request.user.is_authenticated %}
                     <li><a href="{% url 'users:user_edit' request.user.pk %}">Hello, {{request.user.username}}</a></li>
                     <li><a href="{% url 'accounts:logout' %}">Logout</a> </li>
@@ -61,12 +56,16 @@
                     <li><a href="{% url 'accounts:login' %}">Login</a> </li> 
                     <li><a href="{% url 'accounts:register' %}">Sign Up</a> </li> 
                     {% endif %} 
+
                 </ul>
             </div>
         </div>
     </nav>
+{% block content%}
 
+{% endblock %}
     <div class="container">
+        <div class="profile-content">
         <div class="{% block content_classes %}main-content{% endblock content_classes%}">
             {% if messages %}
             {% for message in messages %}
@@ -76,20 +75,29 @@
             {% endfor %}
             {% endif %}
         </div>
-        <div class="profile-content">
-            {% block profile-content %}
-            <h1>Profile block</h1>
-            {% endblock profile-content%}
+        
+            <div class="content">
+                {% block profile-content %}
+                    
+                {% endblock profile-content%}
+            </div>
+            
         </div>
         <div class="tweet-content">
-            {% block tweet-content %}
-            <h1>Tweet block</h1>
-            {% endblock tweet-content%}
+            <div class="content">
+                {% block tweet-content %}
+                  
+                {% endblock tweet-content%}
+            </div>
+            
         </div>
         <div class="users-content">
-            {% block users-content %}
-            <h1>Users block</h1>
-            {% endblock users-content%}
+            <div class="content">
+                {% block users-content %}
+                  
+                {% endblock users-content%}
+            </div>
+            
         </div>
     </div>
     <footer class="page-footer">

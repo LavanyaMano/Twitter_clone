@@ -1,9 +1,9 @@
-<h1>Other users</h1>
+<h4>New Tweet users</h4>
 {% for profile in profiles %}
 <div class="card">
     <div class="card-block">
         <h4 class="card-title">
-            Card title
+            {{profile.user.username}}
         </h4>
         <h6 class="card-subtitle text-muted">
             Support card subtitle
@@ -12,15 +12,21 @@
         <img class="responsive" src="{{profile.profile_pic}}" alt="Card image">
     <div class="card-block">
         <p class="card-text">
-            {{profile.bio}}
+            {{profile.bio | truncatechars:25}}
         </p>
         <a href="{% url 'users:user_detail' profile.user.pk%}" class="card-link">
             View Profile
         </a>
         {% if profile in followed_profiles %}
+        <form action="{% url 'users:unfollow' profile.pk %}" method="POST">
+        {% csrf_token %}
         <button class="btn btn-primary btn-xs">Unfollow</button>
+        </form>
         {% else %}
+        <form action="{% url 'users:follow' profile.pk %}" method="POST">
+        {% csrf_token %}
         <button class="btn btn-primary btn-xs">Follow</button>
+        </form>
         {% endif %}
     </div>
 </div>

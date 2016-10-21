@@ -5,7 +5,7 @@ from django.db.models import Count
 from django.contrib  import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-
+from django.db.models import Q
 from .models import Profile,RELATIONSHIP_STATUSES,Relationship
 from .forms import UserForm
 from tweets.forms import TweetForm
@@ -35,14 +35,25 @@ def base_context(request):
 @login_required
 def user_list(request):
     context = base_context(request)
+    query_set = Tweet.objects.all()
+
+    query = request.GET.get('q')
+    if query:
+        tweets = Tweet.objects.filter(heading__icontains=query)
+        query_set = query_set.filter(
+            Q(heading__icontains=query) |
+            Q(content__in=tweets)
+        )
+        query_set = query_set.distinct()
+
+    tweets = query_set
+    context["tweets"] = tweets
     return render(request,"users/user_list.html",context)
 
 
 def user_detail(request,id):
     context = base_context(request)
-    query_set = Profile.objects
-    query_set = query_set.select_related('user')
-    user_profile = get_object_or_404(query_set,pk=id)
+    user_profile = get_object_or_404(Profile,pk=id)
     context["user_profile"] = user_profile
     context["user_tweets"] = user_profile.tweet_set.all()
     return render(request,"users/user_detail.html",context)
